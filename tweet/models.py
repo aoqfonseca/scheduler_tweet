@@ -27,6 +27,7 @@ class Tweet(models.Model):
     agendado_para = models.DateTimeField(u'Agendado para')
     publicado = models.BooleanField(default=False)
     configuracao = models.ForeignKey(Configuracao, null=True)
+    autor = models.ForeignKey(User, null=True)
 
     def send(self):
 

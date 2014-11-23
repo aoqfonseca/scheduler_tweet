@@ -7,6 +7,7 @@ from .models import Tweet, Configuracao
 class TweetAdmin(admin.ModelAdmin):
 
     list_display = ('texto', 'agendado_para', 'publicado')
+    exclude = ('autor',)
 
     def formfield_for_foreignkey(self, db_field, request, **kwargs):
         if db_field.name == "configuracao" and not request.user.is_superuser:
@@ -14,6 +15,12 @@ class TweetAdmin(admin.ModelAdmin):
 
         return super(TweetAdmin, self).\
             formfield_for_foreignkey(db_field, request, **kwargs)
+
+    def queryset(self, request):
+        if request.user.is_superuser:
+            return Tweet.objects.all()
+
+        return Tweet.objects.filter(autor=request.user)
 
 
 @admin.register(Configuracao)
