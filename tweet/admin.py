@@ -7,7 +7,7 @@ from .models import Tweet, Configuracao
 class TweetAdmin(admin.ModelAdmin):
 
     list_display = ('texto', 'agendado_para', 'publicado')
-    readonly_fields = ('autor',)
+    readonly_fields = ('autor', 'publicado')
 
     def formfield_for_foreignkey(self, db_field, request, **kwargs):
         if db_field.name == "configuracao" and not request.user.is_superuser:
