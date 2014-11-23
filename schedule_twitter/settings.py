@@ -109,5 +109,5 @@ STATICFILES_DIRS = (
 
 SCHEDULE = {
     u'type': 'interval',
-    u'interval': 1,
+    u'interval': 30,
 }
