@@ -1,4 +1,9 @@
+# -*- coding: utf-8 -*-
+
 from django.db import models
+from django.conf import settings
+
+from twython import Twython
 
 
 class Tweet(models.Model):
@@ -8,6 +13,14 @@ class Tweet(models.Model):
     publicado = models.BooleanField(default=False)
 
     def send(self):
-        print "sending %s" % self.text
+
+        client = Twython(settings.TWEET['APP_KEY'],
+                         settings.TWEET['APP_SECRET'],
+                         settings.TWEET['OAUTH_TOKEN'],
+                         settings.TWEET['OAUTH_TOKEN_SECRET'])
+
+        print "sending %s" % self.texto
+
         self.publicado = True
+        client.update_status(status=self.texto)
         self.save()

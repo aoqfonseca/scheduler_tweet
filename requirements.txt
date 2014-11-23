@@ -2,3 +2,7 @@ django
 django-suit
 apscheduler
 twython
+psycopg2
+gunicorn 
+dj-database-url
+dj-static

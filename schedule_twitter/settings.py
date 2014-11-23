@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/1.7/ref/settings/
 import os
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
+
 from django.conf.global_settings import TEMPLATE_CONTEXT_PROCESSORS as TCP
 
 TEMPLATE_CONTEXT_PROCESSORS = TCP + (
@@ -24,6 +25,12 @@ TEMPLATE_CONTEXT_PROCESSORS = TCP + (
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = '$oeprvl$xdx#4**m7srd*#w1qgxt0l9n7yg44pn=x!fbu6t_bl'
+
+# Honor the 'X-Forwarded-Proto' header for request.is_secure()
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
+# Allow all host headers
+ALLOWED_HOSTS = ['*']
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -63,13 +70,17 @@ WSGI_APPLICATION = 'schedule_twitter.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/1.7/ref/settings/#databases
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
+
+import dj_database_url
+LOCAL_DATABASE_PATH='sqlite:////%s' % os.path.join(BASE_DIR, 'db.sqlite3')
+DATABASES['default'] =  dj_database_url.config(default=LOCAL_DATABASE_PATH)
+
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.7/topics/i18n/
@@ -87,10 +98,22 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.7/howto/static-files/
-
+STATIC_ROOT = 'staticfiles'
 STATIC_URL = '/static/'
 
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, 'static'),
+)
+
+TWEET = {
+    u'APP_KEY': os.environ.get('APP_TWITTER_ID'),
+    u'APP_SECRET': os.environ.get('APP_TWITTER_SECRET'),
+    u'OAUTH_TOKEN': os.environ.get('TOKEN_TWITTER_ID'),
+    u'OAUTH_TOKEN_SECRET': os.environ.get('TOKEN_TWITTER_SECRET'),
+
+}
+
 SCHEDULE = {
-    'type': 'interval',
-    'interval': 5,
+    u'type': 'interval',
+    u'interval': 1,
 }

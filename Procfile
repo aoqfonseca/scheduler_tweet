@@ -1,0 +1,1 @@
+web: gunicorn schedule_twitter.wsgi --log-file -
