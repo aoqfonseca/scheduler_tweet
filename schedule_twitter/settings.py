@@ -19,6 +19,8 @@ TEMPLATE_CONTEXT_PROCESSORS = TCP + (
     'django.core.context_processors.request',
 )
 
+STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
+
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.7/howto/deployment/checklist/
@@ -78,8 +80,8 @@ DATABASES = {
 }
 
 import dj_database_url
-LOCAL_DATABASE_PATH='sqlite:////%s' % os.path.join(BASE_DIR, 'db.sqlite3')
-DATABASES['default'] =  dj_database_url.config(default=LOCAL_DATABASE_PATH)
+LOCAL_DATABASE_PATH = 'sqlite:////%s' % os.path.join(BASE_DIR, 'db.sqlite3')
+DATABASES['default'] = dj_database_url.config(default=LOCAL_DATABASE_PATH)
 
 
 # Internationalization
