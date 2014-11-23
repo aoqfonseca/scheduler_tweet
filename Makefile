@@ -11,5 +11,9 @@ create_admin:
 statics:
 	@python manage.py collectstatic --noinput
 
+.PHONY: deploy
+deploy:
+	@git push heroku master
+
 run:
 	@python manage.py runserver 0.0.0.0:8000
