@@ -107,15 +107,7 @@ STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'static'),
 )
 
-TWEET = {
-    u'APP_KEY': os.environ.get('APP_TWITTER_ID'),
-    u'APP_SECRET': os.environ.get('APP_TWITTER_SECRET'),
-    u'OAUTH_TOKEN': os.environ.get('TOKEN_TWITTER_ID'),
-    u'OAUTH_TOKEN_SECRET': os.environ.get('TOKEN_TWITTER_SECRET'),
-
-}
-
 SCHEDULE = {
     u'type': 'interval',
-    u'interval': 30,
+    u'interval': 1,
 }
