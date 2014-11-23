@@ -7,7 +7,7 @@ from .models import Tweet, Configuracao
 class TweetAdmin(admin.ModelAdmin):
 
     list_display = ('texto', 'agendado_para', 'publicado')
-    exclude = ('autor',)
+    readonly_fields = ('autor',)
 
     def formfield_for_foreignkey(self, db_field, request, **kwargs):
         if db_field.name == "configuracao" and not request.user.is_superuser:
@@ -16,11 +16,17 @@ class TweetAdmin(admin.ModelAdmin):
         return super(TweetAdmin, self).\
             formfield_for_foreignkey(db_field, request, **kwargs)
 
-    def queryset(self, request):
+    def get_queryset(self, request):
         if request.user.is_superuser:
             return Tweet.objects.all()
 
         return Tweet.objects.filter(autor=request.user)
+
+    def save_model(self, request, obj, form, change):
+        if obj.autor is None:
+            obj.autor = request.user
+
+        obj.save()
 
 
 @admin.register(Configuracao)
@@ -28,7 +34,7 @@ class ConfiguracaoAdmin(admin.ModelAdmin):
     list_display = ('app_key', 'app_secret')
     exclude = ('dono',)
 
-    def queryset(self, request):
+    def get_queryset(self, request):
         if request.user.is_superuser:
             return Configuracao.objects.all()
 
