@@ -8,6 +8,13 @@ class TweetAdmin(admin.ModelAdmin):
 
     list_display = ('texto', 'agendado_para', 'publicado')
 
+    def formfield_for_foreignkey(self, db_field, request, **kwargs):
+        if db_field.name == "configuracao" and not request.user.is_superuser:
+            kwargs["queryset"] = Configuracao.objects.filter(dono=request.user)
+
+        return super(TweetAdmin, self).\
+            formfield_for_foreignkey(db_field, request, **kwargs)
+
 
 @admin.register(Configuracao)
 class ConfiguracaoAdmin(admin.ModelAdmin):
