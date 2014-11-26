@@ -1,3 +1,4 @@
+import logging
 from datetime import datetime
 from pytz import timezone
 
@@ -6,6 +7,9 @@ from django.conf import settings
 from apscheduler.schedulers.background import BackgroundScheduler
 
 from .models import Tweet
+
+
+log  = logging.getLogger('schedulers')
 
 
 def tweet():
@@ -18,6 +22,7 @@ def tweet():
 
 def start_scheduler():
     scheduler = BackgroundScheduler()
+    log.info('Cadastrando o job')
     scheduler.add_job(tweet,
                       settings.SCHEDULE['type'],
                       minutes=settings.SCHEDULE['interval'],
@@ -25,4 +30,5 @@ def start_scheduler():
 
     scheduler.start()
 
+log.info('Iniciando a agendador')
 start_scheduler()

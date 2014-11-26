@@ -31,8 +31,14 @@ class TweetAdmin(admin.ModelAdmin):
 
 @admin.register(Configuracao)
 class ConfiguracaoAdmin(admin.ModelAdmin):
-    list_display = ('app_key', 'app_secret')
+    list_display = ('nome',)
     exclude = ('dono',)
+    readonly_fields = ('token', 'token_secret', 'url_twitter')
+
+    def url_twitter(self, obj):
+        if obj.id:
+            return "<a target='_blank' href='/pega_token/%s'> \
+        Clique aqui para pegar o seu token de acesso<a>" % obj.id
 
     def get_queryset(self, request):
         if request.user.is_superuser:

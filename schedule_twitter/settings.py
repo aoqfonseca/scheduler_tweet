@@ -97,6 +97,11 @@ USE_L10N = True
 
 USE_TZ = True
 
+#Twitter
+APP_KEY = os.environ.get('APP_TWITTER_ID')
+APP_SECRET = os.environ.get('APP_TWITTER_SECRET')
+APP_URL = os.environ.get('APP_URL', 'http://localhost:8000')
+
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.7/howto/static-files/
