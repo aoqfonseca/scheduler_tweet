@@ -12,6 +12,9 @@ from apscheduler.schedulers.background import BlockingScheduler
 from tweet.models import Tweet
 
 
+django.setup()
+
+
 def tweet():
     tz = timezone(settings.TIME_ZONE)
     now = datetime.now(tz)
@@ -21,7 +24,6 @@ def tweet():
 
 
 def start_scheduler():
-    django.setup()
     scheduler = BlockingScheduler()
     scheduler.add_job(tweet,
                       settings.SCHEDULE['type'],
