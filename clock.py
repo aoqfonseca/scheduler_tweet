@@ -23,9 +23,6 @@ def tweet():
 def start_scheduler():
     django.setup()
     scheduler = BlockingScheduler()
-    print 'iniciando o blockingjob'
-    print settings.SCHEDULE['type']
-    print settings.SCHEDULE['interval']
     scheduler.add_job(tweet,
                       settings.SCHEDULE['type'],
                       minutes=settings.SCHEDULE['interval'],
@@ -33,4 +30,5 @@ def start_scheduler():
 
     scheduler.start()
 
-start_scheduler()
+#start_scheduler()
+tweet()
