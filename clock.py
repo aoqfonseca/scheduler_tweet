@@ -1,19 +1,15 @@
 # -*- coding: utf-8 -*-
 import os
-import logging
 from datetime import datetime
 from pytz import timezone
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "schedule_twitter.settings")
 
+import django
 from django.conf import settings
 
 from apscheduler.schedulers.background import BlockingScheduler
-
 from tweet.models import Tweet
-
-log = logging.getLogger('schedulers')
-
 
 
 def tweet():
@@ -25,8 +21,11 @@ def tweet():
 
 
 def start_scheduler():
+    django.setup()
     scheduler = BlockingScheduler()
-    log.info('Cadastrando o job')
+    print 'iniciando o blockingjob'
+    print settings.SCHEDULE['type']
+    print settings.SCHEDULE['interval']
     scheduler.add_job(tweet,
                       settings.SCHEDULE['type'],
                       minutes=settings.SCHEDULE['interval'],
@@ -34,5 +33,4 @@ def start_scheduler():
 
     scheduler.start()
 
-log.info('Iniciando a agendador')
 start_scheduler()
