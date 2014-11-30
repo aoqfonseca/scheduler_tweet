@@ -36,8 +36,6 @@ class Tweet(models.Model):
                          self.configuracao.token,
                          self.configuracao.token_secret)
 
-        print "sending %s" % self.texto
-
         self.publicado = True
         client.update_status(status=self.texto)
         self.save()

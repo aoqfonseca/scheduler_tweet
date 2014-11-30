@@ -32,5 +32,4 @@ def start_scheduler():
 
     scheduler.start()
 
-#start_scheduler()
-tweet()
+start_scheduler()
